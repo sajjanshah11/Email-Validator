@@ -7,6 +7,10 @@ authRouter
     .route("/signup")
     .post(setCreatedAt,signUpUser);
 
+authRouter
+    .route('/login')
+    .post(loginUser)
+
 
 function setCreatedAt(req,res,next){
 
@@ -44,5 +48,38 @@ async function signUpUser(req, res) {
   
   
 }
+
+async function loginUser(req,res){
+    try{
+        if(req.body.email){
+
+            let user = await userModel.findOne({email:req.body.email});
+
+            if(user){
+                if(req.body.password == user.password){
+                    return res.json({
+                        message:"User Logged in Successfully"
+                    })
+                } else {
+                    return res.json({
+                        message:"email Id and password is wrong"
+                    })
+                }
+            } else {
+                message:"email or password is wrong"
+            }
+
+        } else {
+            return res.json({
+                message:"user doesnot exits";
+            })
+        }
+    } catch(err) {
+        return res.status(500).json({
+            message:err.message;
+        })
+    }
+}
+
 
 module.exports = authRouter

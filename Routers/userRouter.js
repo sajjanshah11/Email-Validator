@@ -1,12 +1,13 @@
 const express = require("express");
 // const app = express();
 
-const userRouter = express.Router()
+const userRouter = express.Router() 
+const userModel = require("../models/userModel")
 
  
 userRouter
   .route("/")
-  .get(getUser)
+  .get(getUsers)
   .post(createUser)
   .patch(updateUser);
 
@@ -18,9 +19,27 @@ userRouter
 
   // app.get('/user',getUser)
 
-function getUser(req, res) {
-  console.log("get user was called");
-  res.json(user);
+async function getUsers(req, res) {
+
+  try {
+    console.log("get user was called");
+  
+    let users = await userModel.find();
+
+    if(users){
+      return res.json(user)
+    } else {
+      return res.json({
+      message:"user not found";
+    })
+  }
+
+  } catch (err) {
+      return res.json({
+        message:err.message
+      })
+  }
+
 }
 
 // app.post('/user',createUser)
