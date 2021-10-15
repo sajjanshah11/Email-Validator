@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
         type: Number
     },
 
+    createdAt: {
+        type:String,
+    },
+
     email: {
         type: String,
         required: true,
@@ -52,15 +56,17 @@ const userSchema = new mongoose.Schema({
 
 const userModel = mongoose.model('userSchema',userSchema);
 
-(async function createModel(){
-    let user = {
-        name:"shah",
-        age:22,
-        email:"test2@test.com",
-        password:123456,
-        confirmPassword:123456
-    }
+module.exports = userModel;
 
-    let userObj = await userModel.create(user)
-    console.log(userObj);
-})();
+// (async function createModel(){
+//     let user = {
+//         name:"shah",
+//         age:22,
+//         email:"test2@test.com",
+//         password:123456,
+//         confirmPassword:123456
+//     }
+
+//     let userObj = await userModel.create(user)
+//     console.log(userObj);
+// })();
